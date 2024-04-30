@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { type Controller } from '../../presentation/protocols'
 import { type Request as ExpressRequest, type Response } from 'express'
 
@@ -12,7 +13,6 @@ export const adaptRoute = (controller: Controller) => {
       ...(req.params || {}),
       user: req.user
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const httpResponse = await controller.handle(request)
     if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
       res.status(httpResponse.statusCode).json(httpResponse.body)

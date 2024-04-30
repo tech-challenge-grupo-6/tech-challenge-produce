@@ -1,23 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { type Middleware, type HttpResponse } from '../../presentation/protocols'
-import { forbidden, ok, serverError } from '../../presentation/helpers'
-import { AccessDeniedError } from '../../presentation/errors'
+import { unauthorized, ok, serverError } from '../../presentation/helpers'
 import { CognitoIdentityServiceProvider } from 'aws-sdk'
+import { type IUserCognito } from '../../domain/models'
 
 const identityServiceProvider = new CognitoIdentityServiceProvider({
   region: process.env.REGION ?? 'us-east-1'
 })
 
-export interface IUser {
-  id: string
-  email: string
-  name: string
-  cpf: string
-}
-
 export interface IAuthenticatedRequest extends Request {
-  user?: IUser
+  user?: IUserCognito
 }
 
 export class AuthMiddleware implements Middleware {
@@ -35,12 +29,11 @@ export class AuthMiddleware implements Middleware {
         }
         return ok({ user: request.user })
       }
-      return forbidden(new AccessDeniedError())
+      return unauthorized()
     } catch (error) {
       if (error.code === 'NotAuthorizedException') {
-        return forbidden(new AccessDeniedError())
+        return unauthorized()
       }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       return serverError(error)
     }
   }
@@ -49,6 +42,6 @@ export class AuthMiddleware implements Middleware {
 export namespace AuthMiddleware {
   export type Request = {
     authorization?: string
-    user?: IUser
+    user?: IUserCognito
   }
 }
