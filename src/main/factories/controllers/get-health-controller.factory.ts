@@ -1,7 +1,7 @@
 import { type Controller } from '../../../presentation/protocols/'
-import { HealthController } from '../../../presentation/controllers'
+import { GetHealthController } from '../../../presentation/controllers'
 
 export const makeHealthController = (): Controller => {
-  const controller = new HealthController()
+  const controller = new GetHealthController()
   return controller
 }

@@ -30,3 +30,8 @@ export const noContent = (): HttpResponse => ({
   statusCode: 204,
   body: null
 })
+
+export const notFound = (data): HttpResponse => ({
+  statusCode: 404,
+  body: data
+})

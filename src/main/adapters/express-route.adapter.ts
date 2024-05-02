@@ -3,7 +3,7 @@ import { type Controller } from '../../presentation/protocols'
 import { type Request as ExpressRequest, type Response } from 'express'
 
 interface Request extends ExpressRequest {
-  user: any // ou substitua 'any' pelo tipo correto se você souber
+  user: any
 }
 
 export const adaptRoute = (controller: Controller) => {
