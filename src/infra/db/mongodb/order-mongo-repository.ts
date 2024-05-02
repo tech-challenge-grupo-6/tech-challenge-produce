@@ -1,12 +1,13 @@
 import { MongoHelper } from './'
 import {
   type UpdateOrderStatusRepository,
-  type LoadOrderByIdRepository
+  type LoadOrderByIdRepository,
+  type LoadOrdersRepository
 } from '../../../data/protocols/db'
 import { ObjectId } from 'mongodb'
 import { type UpdateOrderStatus } from '../../../domain/usecases'
 
-export class OrderMondoRepository implements UpdateOrderStatusRepository, LoadOrderByIdRepository {
+export class OrderMondoRepository implements UpdateOrderStatusRepository, LoadOrderByIdRepository, LoadOrdersRepository {
   async update (data: UpdateOrderStatus.Params): Promise<void> {
     const orderCollection = MongoHelper.getCollection('orders')
     await orderCollection.updateOne({
@@ -22,5 +23,11 @@ export class OrderMondoRepository implements UpdateOrderStatusRepository, LoadOr
     const orderCollection = MongoHelper.getCollection('orders')
     const order = await orderCollection.findOne({ _id: new ObjectId(id) })
     return order && MongoHelper.map(order)
+  }
+
+  async loadAll (): Promise<LoadOrdersRepository.Result> {
+    const orderCollection = MongoHelper.getCollection('orders')
+    const orders = await orderCollection.find({}).toArray()
+    return MongoHelper.mapCollection(orders)
   }
 }
