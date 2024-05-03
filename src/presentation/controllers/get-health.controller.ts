@@ -7,6 +7,7 @@ export class GetHealthController implements Controller {
     try {
       return ok({ message: 'API is running' })
     } catch (error: any) {
+      console.error(error)
       return serverError(error)
     }
   }

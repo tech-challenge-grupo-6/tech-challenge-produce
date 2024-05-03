@@ -17,6 +17,7 @@ export class GetOrderByIdController implements Controller {
       }
       return ok(result)
     } catch (error) {
+      console.error(error)
       return serverError(error)
     }
   }
