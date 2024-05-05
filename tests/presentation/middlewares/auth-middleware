@@ -1,0 +1,43 @@
+/* eslint-disable @typescript-eslint/no-throw-literal */
+/* import { AuthMiddleware } from '../../../src/presentation/middlewares'
+import { unauthorized, serverError } from '../../../src/presentation/helpers'
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const makeSut = () => {
+  const sut = new AuthMiddleware()
+  return { sut }
+}
+
+describe('Auth Middleware', () => {
+  it('should return unauthorized if no authorization is provided', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(unauthorized())
+  })
+
+  it('should return unauthorized if NotAuthorizedException is thrown', async () => {
+    const { sut } = makeSut()
+    jest.spyOn(sut, 'handle').mockImplementationOnce(() => {
+      throw { code: 'NotAuthorizedException' }
+    })
+    const httpResponse = await sut.handle({ authorization: 'any_auth' })
+    expect(httpResponse).toEqual(unauthorized())
+  })
+
+  it('should return server error if an error is thrown', async () => {
+    const { sut } = makeSut()
+    jest.spyOn(sut, 'handle').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const httpResponse = await sut.handle({ authorization: 'any_auth' })
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  it('should add user to request if authorization is provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest: AuthMiddleware.Request = { authorization: 'any_auth' }
+    await sut.handle(httpRequest)
+    expect(httpRequest.user).toBeDefined()
+  })
+})
+*/

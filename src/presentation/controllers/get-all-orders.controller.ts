@@ -16,7 +16,6 @@ export class GetAllOrdersController implements Controller {
       }
       return ok(result)
     } catch (error) {
-      console.error(error)
       return serverError(error)
     }
   }

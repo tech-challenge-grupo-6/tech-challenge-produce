@@ -32,7 +32,6 @@ export class OrderMondoRepository implements UpdateOrderStatusRepository, LoadOr
   async loadByStatus (status: string): Promise<LoadOrderByStatusRepository.Result> {
     const orderCollection = MongoHelper.getCollection(DATABASE)
     const orders = await orderCollection.find({ status }).toArray()
-    console.log(orders)
     return MongoHelper.mapCollection(orders)
   }
 
