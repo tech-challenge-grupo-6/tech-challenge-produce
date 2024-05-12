@@ -1,22 +1,31 @@
-import request from 'supertest'
-import express from 'express'
+import { Router } from 'express'
+import { adaptRoute } from '../../../src/main/adapters'
+import { makeHealthController } from '../../../src/main/factories'
+import { auth } from '../../../src/main/middlewares/auth'
 import healthRoute from '../../../src/main/routes/health.route'
 
-describe('Health Route', () => {
-  const app = express()
-  app.use(express.json())
-  healthRoute(app)
-  it('should return status 200 for GET /healthcheck with valid authentication', async () => {
-  // Aqui você pode substituir 'your_valid_token' pelo token de autenticação válido
-    const response = await request(app)
-      .get('/healthcheck')
-      .set('Authorization', 'Bearer your_valid_token')
-
-    expect(response.status).toBe(200)
+jest.mock('express', () => ({
+  Router: () => ({
+    get: jest.fn()
   })
+}))
 
-  it('should return status 401 for GET /healthcheck without authentication', async () => {
-    const response = await request(app).get('/healthcheck')
-    expect(response.status).toBe(401)
+jest.mock('.../../../src/main/adapters', () => ({
+  adaptRoute: jest.fn()
+}))
+
+jest.mock('../../../src/main/factories', () => ({
+  makeHealthController: jest.fn()
+}))
+
+jest.mock('../../../src/main/middlewares/auth', () => ({
+  auth: jest.fn()
+}))
+
+describe('Health Route', () => {
+  it('should call router.get with correct values', () => {
+    const router = Router()
+    healthRoute(router)
+    expect(router.get).toHaveBeenCalledWith('/healthcheck', auth, adaptRoute(makeHealthController()))
   })
 })

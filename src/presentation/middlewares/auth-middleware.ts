@@ -5,21 +5,24 @@ import { type Middleware, type HttpResponse } from '../../presentation/protocols
 import { unauthorized, ok, serverError } from '../../presentation/helpers'
 import { CognitoIdentityServiceProvider } from 'aws-sdk'
 import { type IUserCognito } from '../../domain/models'
-
-const identityServiceProvider = new CognitoIdentityServiceProvider({
-  region: process.env.REGION ?? 'us-east-1'
-})
-
 export interface IAuthenticatedRequest extends Request {
   user?: IUserCognito
 }
 
 export class AuthMiddleware implements Middleware {
+  readonly identityServiceProvider: CognitoIdentityServiceProvider
+
+  constructor () {
+    this.identityServiceProvider = new CognitoIdentityServiceProvider({
+      region: process.env.REGION ?? 'us-east-1'
+    })
+  }
+
   async handle (request: AuthMiddleware.Request): Promise<HttpResponse> {
     try {
       const { authorization } = request
       if (authorization) {
-        const rawUser = await identityServiceProvider.getUser({ AccessToken: authorization }).promise()
+        const rawUser = await this.identityServiceProvider.getUser({ AccessToken: authorization }).promise()
 
         request.user = {
           id: rawUser.UserAttributes.find((attr) => attr.Name === 'sub')?.Value!,

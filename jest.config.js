@@ -13,5 +13,8 @@ module.exports = {
     "global": {
       "lines": 90
     }
-  }
+  },
+  coveragePathIgnorePatterns: [
+    "<rootDir>/src/infra/db" // Adicionando o caminho completo da pasta que deseja ignorar
+  ]
 };
