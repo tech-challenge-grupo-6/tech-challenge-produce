@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "commonjs",
     "target": "es2019",
+    "module": "commonjs",                     /* Disable resolving symlinks to their realpath. This correlates to the same flag in node. */
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
     "esModuleInterop": true,
-    "sourceMap": true,
-    "rootDirs": ["src", "tests"],
-    "baseUrl": "src",
-    "paths": {
-      "@/tests/*": ["../tests/*"],
-      "@/*": ["*"]
-    },
-    "strictNullChecks": true
   },
-  "include": ["src", "tests"],
-  "exclude": []
+  "exclude": [
+    "jest.config.ts",
+    "node_modules",
+    "*/test/*",
+    "dist",
+    "**/*spec.ts",
+    "*/.test.ts"
+  ]
 }
