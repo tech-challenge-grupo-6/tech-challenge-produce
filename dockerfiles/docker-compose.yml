@@ -1,0 +1,20 @@
+version: "3"
+services:
+  mongodb:
+    image: mongo
+    container_name: mongo_db 
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+  api:
+    container_name: node_app
+    build:
+      context: ../
+      dockerfile: dockerfiles/Dockerfile
+    ports:
+      - "8080:3000"
+
+volumes:
+  mongo_data:

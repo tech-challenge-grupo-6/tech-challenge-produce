@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  mongodb:
+    container_name:  tech_challenge_mongodb
+    restart: always
+    image: mongo:latest
+    ports:
+      - 27018:27017
+    expose:
+      - 27018:27017
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - tech_challenge_network
+
+  api:
+    image: node:20
+    container_name: tech_challenge_produce_api 
+    volumes:
+      - ./:/usr/src/app
+    working_dir: /usr/src/app
+    command: bash -c "npm i && npm run build && npm run start"
+    ports:
+      - 3300:3333
+    expose:
+      - 3300
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/order_status
+      - PORT=3333
+      - DOMAIN=http://localhost
+      - DATABASE=order_status
+      - URL_MICROSERVICE_PAYMENT=
+    networks:
+      - tech_challenge_network
+    restart: on-failure
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb_data:
+    driver: local
+networks:
+  tech_challenge_network:
+    driver: bridge

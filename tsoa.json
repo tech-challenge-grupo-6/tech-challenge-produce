@@ -1,0 +1,9 @@
+{
+  "entryFile": "src/main/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/presentation/controllers/**/*.ts"],
+  "spec": {
+    "outputDirectory": "public",
+    "specVersion": 3
+  }
+}

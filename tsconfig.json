@@ -1,14 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es5",                          
-    "module": "commonjs",                    
-    "lib": ["es6"],                     
-    "allowJs": true,
-    "outDir": "build",                          
-    "rootDir": "src",
-    "strict": true,         
-    "noImplicitAny": true,
+    "target": "es2019",
+    "module": "commonjs",                     /* Disable resolving symlinks to their realpath. This correlates to the same flag in node. */
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
     "esModuleInterop": true,
-    "resolveJsonModule": true
-  }
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "exclude": [
+    "jest.config.ts",
+    "node_modules",
+    "*/test/*",
+    "dist",
+    "**/*spec.ts",
+    "*/.test.ts"
+  ]
 }
