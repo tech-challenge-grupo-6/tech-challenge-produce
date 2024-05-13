@@ -6,6 +6,9 @@
     "skipLibCheck": true,
     "outDir": "dist",
     "esModuleInterop": true,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "exclude": [
     "jest.config.ts",

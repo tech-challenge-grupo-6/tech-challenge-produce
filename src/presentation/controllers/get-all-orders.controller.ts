@@ -2,12 +2,15 @@
 import { type Controller, type HttpResponse } from '../protocols'
 import { serverError, ok, notFound } from '../helpers'
 import { type LoadOrders } from '../../domain/usecases'
+import { Get, Route } from 'tsoa'
 
+@Route('orders')
 export class GetAllOrdersController implements Controller {
   constructor (
     private readonly _loadOrders: LoadOrders
   ) {}
 
+  @Get('/')
   async handle (): Promise<HttpResponse> {
     try {
       const result = await this._loadOrders.loadAll()
