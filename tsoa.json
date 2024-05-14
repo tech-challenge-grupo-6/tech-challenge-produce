@@ -4,6 +4,20 @@
   "controllerPathGlobs": ["src/presentation/controllers/**/*.ts"],
   "spec": {
     "outputDirectory": "public",
-    "specVersion": 3
+    "specVersion": 3,
+    "basePath": "/api",
+    "servers": [
+      {
+        "url": "http://localhost:3333/api",
+        "description": "Local server"
+      }
+    ],
+    "securityDefinitions": {
+      "jwt": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
   }
 }

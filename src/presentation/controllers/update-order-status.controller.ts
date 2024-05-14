@@ -22,12 +22,23 @@ export class UpdateOrderStatusController implements Controller {
       request.status = getCorrectValueStatus(request.status) as Status
       // TO DO
       // Utilizar aqui o axiosClient para buscar o pedido no microserviço de pagamento
+      const response = await this._axiosClient.get({
+        url: `/${request.orderId}`,
+        params: {}
+      })
+      console.log(response)
+      // Se o status do pedido for false então não faz nada
+      // Seo status for true eo pedido existir, atualiza o status
+      // Se o status for true e o pedido não existir, cria o pedido e retorna com status atualizado
+      // Implementar a logica de adicionar pedido no banco de dados
       const result = await this._updateOrderStatus.update(request)
-      if (result === null || result === undefined) {
+
+      if ((result === null || result === undefined)) {
         return notFound({ message: 'Order not found' })
       }
       return ok(result)
     } catch (error) {
+      console.log(error)
       return serverError(error)
     }
   }

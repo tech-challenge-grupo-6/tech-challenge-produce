@@ -7,7 +7,7 @@ describe('GetHealthController', () => {
   const sut = new GetHealthController()
 
   it('should return 200 and a message if API is running', async () => {
-    const httpResponse = await sut.handle({})
+    const httpResponse = await sut.handle()
     expect(httpResponse).toEqual(ok({ message: 'API is running' }))
   })
 

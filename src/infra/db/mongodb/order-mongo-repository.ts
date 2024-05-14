@@ -5,7 +5,6 @@ import {
   type LoadOrdersRepository,
   type LoadOrderByStatusRepository
 } from '../../../data/protocols/db'
-import { ObjectId } from 'mongodb'
 import { type UpdateOrderStatus } from '../../../domain/usecases'
 import env from '../../../main/config/env'
 
@@ -15,7 +14,7 @@ export class OrderMondoRepository implements UpdateOrderStatusRepository, LoadOr
   async update (data: UpdateOrderStatus.Params): Promise<void> {
     const orderCollection = MongoHelper.getCollection(DATABASE)
     await orderCollection.updateOne({
-      _id: new ObjectId(data.orderId)
+      order_id: data.orderId
     }, {
       $set: {
         status: data.status
@@ -25,7 +24,7 @@ export class OrderMondoRepository implements UpdateOrderStatusRepository, LoadOr
 
   async loadById (id: string): Promise<LoadOrderByIdRepository.Result> {
     const orderCollection = MongoHelper.getCollection(DATABASE)
-    const order = await orderCollection.findOne({ _id: new ObjectId(id) })
+    const order = await orderCollection.findOne({ order_id: id })
     return order && MongoHelper.map(order)
   }
 
