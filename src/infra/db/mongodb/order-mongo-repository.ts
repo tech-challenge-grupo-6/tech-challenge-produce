@@ -3,14 +3,21 @@ import {
   type UpdateOrderStatusRepository,
   type LoadOrderByIdRepository,
   type LoadOrdersRepository,
-  type LoadOrderByStatusRepository
+  type LoadOrderByStatusRepository,
+  type AddOrderRepository
 } from '../../../data/protocols/db'
 import { type UpdateOrderStatus } from '../../../domain/usecases'
 import env from '../../../main/config/env'
 
 const DATABASE = env.database
 
-export class OrderMondoRepository implements UpdateOrderStatusRepository, LoadOrderByIdRepository, LoadOrdersRepository, LoadOrderByStatusRepository {
+export class OrderMondoRepository implements UpdateOrderStatusRepository, LoadOrderByIdRepository, LoadOrdersRepository, LoadOrderByStatusRepository, AddOrderRepository {
+  async add (data: AddOrderRepository.Params): Promise<AddOrderRepository.Params> {
+    const surveyCollection = MongoHelper.getCollection(DATABASE)
+    await surveyCollection.insertOne(data)
+    return data
+  }
+
   async update (data: UpdateOrderStatus.Params): Promise<void> {
     const orderCollection = MongoHelper.getCollection(DATABASE)
     await orderCollection.updateOne({
