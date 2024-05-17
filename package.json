@@ -51,6 +51,7 @@
   "dependencies": {
     "aws-sdk": "^2.1609.0",
     "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
     "module-alias": "^2.2.3",

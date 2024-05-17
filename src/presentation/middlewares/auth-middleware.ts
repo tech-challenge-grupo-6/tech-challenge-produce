@@ -5,6 +5,8 @@ import { type Middleware, type HttpResponse } from '../../presentation/protocols
 import { unauthorized, ok, serverError } from '../../presentation/helpers'
 import { CognitoIdentityServiceProvider } from 'aws-sdk'
 import { type IUserCognito } from '../../domain/models'
+import env from '../../main/config/env'
+
 export interface IAuthenticatedRequest extends Request {
   user?: IUserCognito
 }
@@ -14,7 +16,7 @@ export class AuthMiddleware implements Middleware {
 
   constructor () {
     this.identityServiceProvider = new CognitoIdentityServiceProvider({
-      region: process.env.REGION ?? 'us-east-1'
+      region: env.awsRegion
     })
   }
 

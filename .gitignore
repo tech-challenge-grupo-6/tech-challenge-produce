@@ -8,3 +8,4 @@ data
 globalConfig.json
 build
 .env*
+terraform-test
