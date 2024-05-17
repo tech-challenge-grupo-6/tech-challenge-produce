@@ -16,5 +16,6 @@ module.exports = {
   },
   coveragePathIgnorePatterns: [
     '<rootDir>/src/infra/db' // Adicionando o caminho completo da pasta que deseja ignorar
-  ]
+  ],
+  coverageReporters: [['text', { file: 'coverage.txt' }]]
 }
