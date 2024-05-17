@@ -23,7 +23,7 @@ jobs:
           terraform_wrapper: false
 
       - name: Check folder
-        uses: echo "ls"
+        run: echo "ls"
 
       - name: Generate terraform.tfvars.json
         run: |
