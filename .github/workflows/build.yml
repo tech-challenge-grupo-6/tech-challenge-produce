@@ -24,8 +24,11 @@ jobs:
       - name: Unit Tests
         run: npm run test
 
-      - name: Coverage
-        uses: ArtiomTr/jest-coverage-report-action@v2
+      - name: Prepare coverage report in markdown
+        uses: fingerprintjs/action-coverage-report-md@v1
+        id: coverage
+        
+      - name: Add coverage comment to the PR 
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
-          github-token: ${{ secrets.SECRET_TOKEN }}
-          coverage-file: ./coverage/coverage-final.json
+          message: ${{ steps.coverage.outputs.markdownReport }}
