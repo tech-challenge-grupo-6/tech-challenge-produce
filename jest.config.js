@@ -22,7 +22,8 @@ module.exports = {
     'html',
     'json-summary',
     'text',
-    'text-summary'
+    'text-summary',
     //   'lcov',
+    ['text', { file: 'coverage.txt' }]
   ]
 }

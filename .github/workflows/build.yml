@@ -28,7 +28,6 @@ jobs:
         id: coverageComment
         uses: MishaKav/jest-coverage-comment@main
         with:
-          hide-comment: true
           coverage-summary-path: ./coverage/coverage-summary.json
 
       - name: Check the output coverage
@@ -36,6 +35,7 @@ jobs:
           echo "Coverage Percentage - ${{ steps.coverageComment.outputs.coverage }}"
           echo "Coverage Color - ${{ steps.coverageComment.outputs.color }}"
           echo "Summary HTML - ${{ steps.coverageComment.outputs.summaryHtml }}"
+          
       - name: Create the badge
         if: github.ref == 'refs/heads/main'
         uses: schneegans/dynamic-badges-action@v1.6.0
