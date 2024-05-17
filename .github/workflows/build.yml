@@ -26,6 +26,8 @@ jobs:
 
       - name: Code Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          github-token: ${{ secrets.SECRET_TOKEN }}
 
       - name: Adding Code Coverage to Summary
         run: |
