@@ -46,7 +46,8 @@ describe('DbLoadOrderByStatus', () => {
         return [
           {
             id: 'valid_id',
-            Status: Status.Criado
+            order_id: 'any_order_id',
+            status: Status.Criado
           }
         ]
       }
@@ -58,7 +59,8 @@ describe('DbLoadOrderByStatus', () => {
     expect(orders).toEqual([
       {
         id: 'valid_id',
-        Status: Status.Criado
+        order_id: 'any_order_id',
+        status: Status.Criado
       }
     ])
   })

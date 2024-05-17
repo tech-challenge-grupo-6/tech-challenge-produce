@@ -1,22 +1,18 @@
-import { AdAddOrder } from '../../../src/data/usecases/db-add-order'
-import { type AddOrderRepository } from '../../../src/data/protocols/db'
-import { type AddOrder } from '../../../src/domain/usecases/add-order'
+import { DbAdAddOrder } from '../../../src/data/usecases/db-add-order'
+import { AddOrder } from '../../../src/domain/usecases'
+import { Status } from '../../../src/domain/models'
 
-describe('DbAddOrder', () => {
+describe('DbAdAddOrder', () => {
   test('Should call AddOrderRepository with correct values', async () => {
-    class AddOrderRepositoryStub implements AddOrderRepository {
-      async add (data: AddOrder.Params): Promise<void> {
-        return Promise.resolve()
-      }
+    const addOrderRepositoryStub = {
+      add: jest.fn().mockReturnValueOnce(Promise.resolve({} as AddOrder.Params))
     }
-    const addOrderRepositoryStub = new AddOrderRepositoryStub()
+    const sut = new DbAdAddOrder(addOrderRepositoryStub)
     const addSpy = jest.spyOn(addOrderRepositoryStub, 'add')
-    const sut = new AdAddOrder(addOrderRepositoryStub)
     const orderData = {
-      id: 'any_id',
-      status: 'any_status'
-    } as any
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      order_id: 'any_order_id',
+      status: Status.Criado
+    }
     await sut.add(orderData)
     expect(addSpy).toHaveBeenCalledWith(orderData)
   })

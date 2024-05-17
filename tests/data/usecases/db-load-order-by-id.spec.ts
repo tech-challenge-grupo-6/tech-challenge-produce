@@ -9,7 +9,8 @@ describe('DbLoadOrderById', () => {
       async loadById (id: string): Promise<LoadOrderById.Result> {
         return {
           id: 'any_id',
-          Status: Status.Criado
+          order_id : 'any_order_id',
+          status: Status.Criado
         }
       }
     }
@@ -39,7 +40,8 @@ describe('DbLoadOrderById', () => {
         // Simulação de retorno de sucesso
         return {
           id: 'any_id',
-          Status: Status.Criado
+          order_id: 'any_order_id',
+          status: Status.Criado
         }
       }
     }
@@ -48,7 +50,8 @@ describe('DbLoadOrderById', () => {
     const order = await sut.loadById('any_id')
     expect(order).toEqual({
       id: 'any_id',
-      Status: Status.Criado
+      order_id: 'any_order_id',
+      status: Status.Criado
     })
   })
 })

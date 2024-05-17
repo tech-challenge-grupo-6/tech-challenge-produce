@@ -14,7 +14,8 @@ describe('DbUpdateOrderStatus', () => {
     loadOrderByIdRepositoryStub = {
       loadById: jest.fn(async (id: string) => ({
         id,
-        Status: Status.Criado
+        order_id: 'any_order_id',
+        status: Status.Criado
       }) satisfies OrderModel) // Update the return type to OrderModel
     }
     dbUpdateOrderStatus = new DbUpdateOrderStatus(
@@ -55,7 +56,7 @@ describe('DbUpdateOrderStatus', () => {
 
   test('Should return the updated order on success', async () => {
     const updateParams = { orderId: 'any_id', status: Status.Criado } // Change the type of status to Status
-    const expectedResult: OrderModel = { id: 'any_id', Status: Status.EmProgresso }
+    const expectedResult: OrderModel = { id: 'any_id', order_id: 'order_id', status: Status.EmProgresso }
     loadOrderByIdRepositoryStub.loadById = jest.fn(async () => expectedResult)
     const result = await dbUpdateOrderStatus.update(updateParams)
     expect(result).toEqual(expectedResult)
