@@ -1,0 +1,34 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - feat/deploy-project
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Unit Tests
+        run: npm run test
+
+      - name: Code Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: "**/coverage.cobertura.xml"
+          badge: true
+          fail_below_min: true
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
+          output: both
+          thresholds: "80"
+
+      - name: Adding Code Coverage to Summary
+        run: |
+          cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY

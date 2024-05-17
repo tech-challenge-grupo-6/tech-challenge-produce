@@ -1,20 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapp-nodejs
+  name: controladorproducao-app
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: webapp-nodejs
+      app: controladorproducao-app
   template:
     metadata:
       labels:
-        app: webapp-nodejs
+        app: controladorproducao-app
     spec:
       containers:
-        - name: webapp-nodejs
-          image: public.ecr.aws/h8x1p4i3/webapp-nodejs-repo:latest
+        - name: controladorproducao-app
+          image: public.ecr.aws/h8x1p4i3/controladorproducao-app-repo:latest
+          #image: __CONTROLADOR_PRODUCAO_IMAGE_NAME__
+          #env:
+          #  - name: URL_MICROSERVICE_PAYMENT
+          #    value: http://controladorproducao-payment:3333
+          #  - name: MONGO_URI
+          #    value: mongodb://controladorproducao-mongodb:27017/controladorproducao
           ports:
             - containerPort: 3333
           resources:
@@ -22,19 +28,16 @@ spec:
               cpu: 500m
               memory: 512Mi
             requests:
-              cpu: 250m
+              cpu: 200m
               memory: 256Mi
-      serviceAccountName: fargate-pod-execution-role
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapp-nodejs
+  name: controladorproducao-app
 spec:
   selector:
-    app: webapp-nodejs
+    app: controladorproducao-app
   ports:
     - protocol: TCP
       port: 80
