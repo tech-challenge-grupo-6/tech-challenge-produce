@@ -49,5 +49,7 @@ jobs:
           output=$(terraform output db_cn_string)
           chmod +x ./modify_mongodb_string.sh
           connection_string=$(./modify_mongodb_string.sh ${{ secrets.ATLAS_PROJECT_ID }} ${{ secrets.MONGODB_USERNAME }} ${{ secrets.MONGODB_PASSWORD }})
+          echo $connection_string
+          echo "::set-output name=connection_string::$connection_string"
           echo "MONGODB_CONN_STRING=$connection_string" >> $GITHUB_ENV
         shell: bash
