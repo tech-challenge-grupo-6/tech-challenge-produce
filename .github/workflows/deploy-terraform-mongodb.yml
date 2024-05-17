@@ -43,8 +43,11 @@ jobs:
         id: apply
         run: terraform apply -var-file=terraform.tfvars.json -auto-approve
 
-      - name: Call terraform output
+      - name: Create MongoDB Connection String
+        id: mongodb_connection
         run: |
           output=$(terraform output db_cn_string)
-          echo $output
-          echo "MONGODB_CONN_STRING=$output" >> $GITHUB_ENV
+          chmod +x ../modify_mongodb_string.sh
+          connection_string=$(./modify_mongodb_string.sh ${{ secrets.ATLAS_PROJECT_ID }} ${{ secrets.MONGODB_USERNAME }} ${{ secrets.MONGODB_PASSWORD }})
+          run: echo "MONGODB_CONN_STRING=$(echo $$connection_string)" >> $GITHUB_ENV
+        shell: bash
