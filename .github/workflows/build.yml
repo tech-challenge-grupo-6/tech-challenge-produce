@@ -27,5 +27,4 @@ jobs:
       - name: Coverage
         uses: "ArtiomTr/jest-coverage-report-action@v2.0-rc.6"
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          hreshold: 80 # optional parameter
+          coverage-file: ./coverage/coverage-final.json
