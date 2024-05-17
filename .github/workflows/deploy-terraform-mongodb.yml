@@ -43,21 +43,22 @@ jobs:
         id: apply
         run: terraform apply -var-file=terraform.tfvars.json -auto-approve
 
-      - name: Terraform Output
-        id: output
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update Repository Variable
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install GitHub CLI
         run: |
-          echo $(terraform output -raw db_cn_string)
-          variable_name="MONGODB_CONN_STRING"
-          connection_string="$(terraform output -raw db_cn_string)
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          sudo apt-add-repository https://cli.github.com/packages
+          sudo apt update
+          sudo apt install gh
 
-          repo_owner="owner"
-          repo_name="repository"
+      - name: Authenticate with GitHub CLI
+        run: |
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
 
-          # Atualiza a variável de repositório usando a API do GitHub
-          curl -X PATCH \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/$repo_owner/$repo_name/actions/secrets/$variable_name" \
-            -d "{\"encrypted_value\": \"$(echo -n $connection_string | openssl enc -base64)\", \"key_id\": null}""
+      - name: Update Repository Secret
+        run: |
+          gh secret set MONGODB_CONN_STRING --body "$(terraform output -raw db_cn_string)" --repository owner/repository
