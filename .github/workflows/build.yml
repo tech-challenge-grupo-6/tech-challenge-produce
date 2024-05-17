@@ -24,10 +24,15 @@ jobs:
       - name: Unit Tests
         run: npm run test
 
-      - name: Code Coverage Report
-        uses: ArtiomTr/jest-coverage-report-action@v2
+      - name: Coverage
+        uses: adRise/jest-cov-reporter@main
         with:
-          github-token: ${{ secrets.SECRET_TOKEN }}
+          branch-coverage-report-path: ./coverage/coverage-summary.json
+          base-coverage-report-path: ./coverage/master-coverage-summary.json
+          delta: 0.3
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
+          fullCoverageDiff: true
+          useSameComment: true
 
       - name: Adding Code Coverage to Summary
         run: |
