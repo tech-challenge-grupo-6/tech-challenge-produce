@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-nodejs
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webapp-nodejs
+  template:
+    metadata:
+      labels:
+        app: webapp-nodejs
+    spec:
+      containers:
+        - name: webapp-nodejs
+          image: public.ecr.aws/h8x1p4i3/webapp-nodejs-repo:latest
+          ports:
+            - containerPort: 3333
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+      serviceAccountName: fargate-pod-execution-role
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-nodejs
+spec:
+  selector:
+    app: webapp-nodejs
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
