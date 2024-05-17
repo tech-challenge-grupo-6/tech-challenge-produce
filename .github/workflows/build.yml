@@ -24,17 +24,15 @@ jobs:
       - name: Unit Tests
         run: npm run test
 
-      - name: Prepare coverage report in markdown
-        uses: fingerprintjs/action-coverage-report-md@v1
-        id: coverage
-        
       - name: Jest Coverage Comment
+        id: coverageComment
         uses: MishaKav/jest-coverage-comment@main
         with:
+          hide-comment: true
           coverage-summary-path: ./coverage/coverage-summary.json
-          title: My Jest Coverage Comment
-          summary-title: My Summary Title
-          badge-title: Coverage
-          hide-comment: false
-          create-new-comment: false
-          hide-summary: false
+
+      - name: Check the output coverage
+        run: |
+          echo "Coverage Percentage - ${{ steps.coverageComment.outputs.coverage }}"
+          echo "Coverage Color - ${{ steps.coverageComment.outputs.color }}"
+          echo "Summary HTML - ${{ steps.coverageComment.outputs.summaryHtml }}"

@@ -8,7 +8,6 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   collectCoverage: true,
-  collectCoverageFrom: ['./src/**'],
   coverageThreshold: {
     global: {
       lines: 80
@@ -17,5 +16,13 @@ module.exports = {
   coveragePathIgnorePatterns: [
     '<rootDir>/src/infra/db' // Adicionando o caminho completo da pasta que deseja ignorar
   ],
-  coverageReporters: [['text', { file: 'coverage.txt' }]]
+  coverageReporters: [
+    //   'clover',
+    //   'json',
+    'html',
+    'json-summary',
+    'text',
+    'text-summary'
+    //   'lcov',
+  ]
 }
