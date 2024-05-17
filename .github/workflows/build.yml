@@ -20,22 +20,12 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        
+
       - name: Unit Tests
         run: npm run test
 
       - name: Code Coverage Report
-        uses: irongut/CodeCoverageSummary@v1.3.0
-        with:
-          filename: "**/coverage.cobertura.xml"
-          badge: true
-          fail_below_min: true
-          format: markdown
-          hide_branch_rate: false
-          hide_complexity: true
-          indicators: true
-          output: both
-          thresholds: "80"
+        uses: ArtiomTr/jest-coverage-report-action@v2
 
       - name: Adding Code Coverage to Summary
         run: |
