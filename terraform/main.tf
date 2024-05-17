@@ -42,6 +42,11 @@ resource "mongodbatlas_database_user" "admin" {
   }
 }
 
+locals {
+  mongodb_server_without_uri = replace(mongodbatlas_cluster.tc-db-produce.srv_address, "mongodb+srv://", "")
+}
+
 output "db_cn_string" {
-    value = mongodbatlas_cluster.tc-db-produce.connection_strings.0.standard_srv
+  value       = "mongodb+srv://${var.mongodb_atlas_database_username}:${var.mongodb_atlas_database_password}@${local.mongodb_server_without_uri}"
+  description = "Mongo Compass connection string"
 }
