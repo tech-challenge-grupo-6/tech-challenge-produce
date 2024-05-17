@@ -38,5 +38,3 @@ jobs:
           hide-comment: false
           create-new-comment: false
           hide-summary: false
-          coverage-title: My Coverage Title
-          coverage-path: ./coverage.txt
