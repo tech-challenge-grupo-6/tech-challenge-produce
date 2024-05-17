@@ -1,0 +1,45 @@
+name: Terraform MongoDB Atlas - Create
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
+
+      - name: Generate terraform.tfvars.json
+        run: |
+          echo '{
+            "public_key": "${{ secrets.ATLAS_PUBLIC_KEY }}",
+            "private_key": "${{ secrets.ATLAS_PRIVATE_KEY }}",
+            "project_id": "${{ secrets.ATLAS_PROJECT_ID }}",
+            "mongodb_atlas_database_username": "${{ secrets.MONGODB_USERNAME }}",
+            "mongodb_atlas_database_password": "${{ secrets.MONGODB_PASSWORD }}"
+          }' > terraform.tfvars.json
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -var-file=terraform.tfvars.json -no-color
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -var-file=terraform.tfvars.json -auto-approve
+
+      - name: Call terraform output
+        run: |
+          output=$(terraform output db_cn_string)
+          echo $output
+          echo "MONGODB_CONN_STRING=$output" >> $GITHUB_ENV
