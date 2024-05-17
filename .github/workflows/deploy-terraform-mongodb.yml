@@ -1,7 +1,9 @@
 name: Terraform MongoDB Atlas - Create
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - feat/deploy-project
 
 jobs:
   build:
