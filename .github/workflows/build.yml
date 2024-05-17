@@ -25,15 +25,7 @@ jobs:
         run: npm run test
 
       - name: Coverage
-        uses: adRise/jest-cov-reporter@main
+        uses: "ArtiomTr/jest-coverage-report-action@v2.0-rc.6"
         with:
-          branch-coverage-report-path: ./coverage/coverage-summary.json
-          base-coverage-report-path: ./coverage/master-coverage-summary.json
-          delta: 0.3
-          accessToken: ${{ secrets.GITHUB_TOKEN }}
-          fullCoverageDiff: true
-          useSameComment: true
-
-      - name: Adding Code Coverage to Summary
-        run: |
-          cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          hreshold: 80 # optional parameter
