@@ -14,13 +14,12 @@ spec:
     spec:
       containers:
         - name: controladorproducao-app
-          image: public.ecr.aws/h8x1p4i3/controladorproducao-app-repo:latest
-          #image: __CONTROLADOR_PRODUCAO_IMAGE_NAME__
-          #env:
-          #  - name: URL_MICROSERVICE_PAYMENT
-          #    value: http://controladorproducao-payment:3333
-          #  - name: MONGO_URI
-          #    value: mongodb://controladorproducao-mongodb:27017/controladorproducao
+          image: __CONTROLADOR_PEDIDO_IMAGE_NAME__
+          env:
+            - name: URL_MICROSERVICE_PAYMENT
+              value: http://controladorpagamento:5004
+            - name: MONGO_URI
+              value: mongodb+srv://admin:terraform@tc-db-produce.6vjyeov.mongodb.net/tech_challenge_db
           ports:
             - containerPort: 3333
           resources:
@@ -40,6 +39,6 @@ spec:
     app: controladorproducao-app
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 3000
+      port: 3333
+      targetPort: 3333
   type: LoadBalancer
