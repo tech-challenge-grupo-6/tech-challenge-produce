@@ -2,5 +2,6 @@ import { type Status } from './'
 
 export type OrderModel = {
   id: string
-  Status: Status
+  status: Status
+  order_id: string
 }

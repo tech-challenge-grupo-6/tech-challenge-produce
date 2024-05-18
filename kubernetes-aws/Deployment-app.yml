@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controladorproducao-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: controladorproducao-app
+  template:
+    metadata:
+      labels:
+        app: controladorproducao-app
+    spec:
+      containers:
+        - name: controladorproducao-app
+          image: public.ecr.aws/h8x1p4i3/controladorproducao-app-repo:latest
+          #image: __CONTROLADOR_PRODUCAO_IMAGE_NAME__
+          #env:
+          #  - name: URL_MICROSERVICE_PAYMENT
+          #    value: http://controladorproducao-payment:3333
+          #  - name: MONGO_URI
+          #    value: mongodb://controladorproducao-mongodb:27017/controladorproducao
+          ports:
+            - containerPort: 3333
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: controladorproducao-app
+spec:
+  selector:
+    app: controladorproducao-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer

@@ -20,15 +20,18 @@ describe('UpdateOrderStatusController', () => {
     const updateOrderStatusStub = {
       update: jest.fn()
     }
+    const addOrderStub = {
+      add: jest.fn()
+    }
     const validationStub = {
       validate: jest.fn()
     }
     const axiosClientStub = {
       get: jest.fn()
     }
-    const sut = new UpdateOrderStatusController(updateOrderStatusStub, validationStub, axiosClientStub)
+    const sut = new UpdateOrderStatusController(addOrderStub, updateOrderStatusStub, validationStub, axiosClientStub)
     const params = {
-      orderId: 'any_id',
+      order_id: 'any_id',
       status: 'Criado'
     } as any
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

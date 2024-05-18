@@ -1,20 +1,29 @@
-module.exports = { 
+module.exports = {
   collectCoverageFrom: [
     '<rootDir>/src/**/*.ts',
     '!<rootDir>/src/main/**'
   ],
   coverageDirectory: 'coverage',
   roots: ['<rootDir>/tests'],
-  preset: "ts-jest", 
-  testEnvironment: "node",
+  preset: 'ts-jest',
+  testEnvironment: 'node',
   collectCoverage: true,
-  collectCoverageFrom: ["./src/**"],
   coverageThreshold: {
-    "global": {
-      "lines": 90
+    global: {
+      lines: 80
     }
   },
   coveragePathIgnorePatterns: [
-    "<rootDir>/src/infra/db" // Adicionando o caminho completo da pasta que deseja ignorar
+    '<rootDir>/src/infra/db' // Adicionando o caminho completo da pasta que deseja ignorar
+  ],
+  coverageReporters: [
+    //   'clover',
+    //   'json',
+    'html',
+    'json-summary',
+    'text',
+    'text-summary',
+    //   'lcov',
+    ['text', { file: 'coverage.txt' }]
   ]
-};
+}

@@ -33,7 +33,8 @@ describe('DbLoadOrders', () => {
     const returnOrders = [
       {
         id: 'any_id',
-        Status: Status.Criado
+        order_id: 'any_order_id',
+        status: Status.Criado
       }
     ]
     class LoadOrdersRepositoryStub implements LoadOrdersRepository {

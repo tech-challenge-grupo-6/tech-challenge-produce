@@ -3,19 +3,25 @@ import {
   type UpdateOrderStatusRepository,
   type LoadOrderByIdRepository,
   type LoadOrdersRepository,
-  type LoadOrderByStatusRepository
+  type LoadOrderByStatusRepository,
+  type AddOrderRepository
 } from '../../../data/protocols/db'
-import { ObjectId } from 'mongodb'
 import { type UpdateOrderStatus } from '../../../domain/usecases'
 import env from '../../../main/config/env'
 
-const DATABASE = env.database
+const COLLECTION = env.collection
 
-export class OrderMondoRepository implements UpdateOrderStatusRepository, LoadOrderByIdRepository, LoadOrdersRepository, LoadOrderByStatusRepository {
+export class OrderMondoRepository implements UpdateOrderStatusRepository, LoadOrderByIdRepository, LoadOrdersRepository, LoadOrderByStatusRepository, AddOrderRepository {
+  async add (data: AddOrderRepository.Params): Promise<AddOrderRepository.Params> {
+    const surveyCollection = MongoHelper.getCollection(COLLECTION)
+    await surveyCollection.insertOne(data)
+    return data
+  }
+
   async update (data: UpdateOrderStatus.Params): Promise<void> {
-    const orderCollection = MongoHelper.getCollection(DATABASE)
+    const orderCollection = MongoHelper.getCollection(COLLECTION)
     await orderCollection.updateOne({
-      _id: new ObjectId(data.orderId)
+      order_id: data.orderId
     }, {
       $set: {
         status: data.status
@@ -24,19 +30,19 @@ export class OrderMondoRepository implements UpdateOrderStatusRepository, LoadOr
   }
 
   async loadById (id: string): Promise<LoadOrderByIdRepository.Result> {
-    const orderCollection = MongoHelper.getCollection(DATABASE)
-    const order = await orderCollection.findOne({ _id: new ObjectId(id) })
+    const orderCollection = MongoHelper.getCollection(COLLECTION)
+    const order = await orderCollection.findOne({ order_id: id })
     return order && MongoHelper.map(order)
   }
 
   async loadByStatus (status: string): Promise<LoadOrderByStatusRepository.Result> {
-    const orderCollection = MongoHelper.getCollection(DATABASE)
+    const orderCollection = MongoHelper.getCollection(COLLECTION)
     const orders = await orderCollection.find({ status }).toArray()
     return MongoHelper.mapCollection(orders)
   }
 
   async loadAll (): Promise<LoadOrdersRepository.Result> {
-    const orderCollection = MongoHelper.getCollection(DATABASE)
+    const orderCollection = MongoHelper.getCollection(COLLECTION)
     const orders = await orderCollection.find({}).toArray()
     return MongoHelper.mapCollection(orders)
   }
