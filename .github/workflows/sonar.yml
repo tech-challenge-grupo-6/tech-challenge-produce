@@ -35,10 +35,12 @@ jobs:
 
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
         run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
+          mkdir .\.sonar\scanner
           npm install -g sonar-scanner
+
+      - name: Add SonarCloud scanner to PATH
+        run: echo "$(npm root -g)\sonar-scanner\bin" >> $GITHUB_PATH
 
       - name: Install dependencies
         run: npm install
@@ -50,9 +52,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Necessário para obter informações de PR, se houver
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
+        shell: cmd
         run: |
-          sonar-scanner.bat \
+          sonar-scanner \
             -Dsonar.projectKey=<YOUR_SONARCLOUD_PROJECT_KEY> \
             -Dsonar.organization=<YOUR_SONARCLOUD_ORGANIZATION> \
             -Dsonar.sources=. \
