@@ -48,10 +48,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Necessário para obter informações de PR, se houver
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: pwsh
         run: |
-          sonar-scanner \
-            -Dsonar.projectKey=<YOUR_SONARCLOUD_PROJECT_KEY> \
-            -Dsonar.organization=<YOUR_SONARCLOUD_ORGANIZATION> \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=https://sonarcloud.io \
+          sonar-scanner `
+            -Dsonar.projectKey=<YOUR_SONARCLOUD_PROJECT_KEY> `
+            -Dsonar.organization=<YOUR_SONARCLOUD_ORGANIZATION> `
+            -Dsonar.sources=. `
+            -Dsonar.host.url=https://sonarcloud.io `
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
