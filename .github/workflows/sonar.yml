@@ -3,56 +3,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build and analyze
-    runs-on: windows-latest
-
+  main:
+    runs-on: ubuntu-latest
     steps:
-      - name: Set up Node.js
+      - name: Checkout develop branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: develop
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Substitua pela versão necessária do Node.js
-
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Clones superficiais devem ser desabilitados para melhor relevância da análise
-
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Cache SonarCloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v3
-        with:
-          path: .\.sonar\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-
-      - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        run: |
-          npm install -g sonar-scanner
-
+          node-version: 16
       - name: Install dependencies
         run: npm install
-
-      - name: Build the project
-        run: npm run build # Ajuste conforme necessário para seu projeto
-
-      - name: Run SonarCloud Scan
+      - name: Scan with sonar
+        uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Necessário para obter informações de PR, se houver
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: pwsh
-        run: |
-          sonar-scanner `
-            -Dsonar.projectKey=<YOUR_SONARCLOUD_PROJECT_KEY> `
-            -Dsonar.organization=<YOUR_SONARCLOUD_ORGANIZATION> `
-            -Dsonar.sources=. `
-            -Dsonar.host.url=https://sonarcloud.io `
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
