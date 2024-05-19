@@ -7,14 +7,14 @@ import { getCorrectValueStatus } from '../../common/helpers'
 import { type AxiosHttpClient } from '../../infra/http-client/axios'
 
 export class UpdateOrderStatusController implements Controller {
-  constructor (
+  constructor(
     private readonly _addOrder: AddOrder,
     private readonly _updateOrderStatus: UpdateOrderStatus,
     private readonly _validation: Validation,
     private readonly _axiosClient: AxiosHttpClient
-  ) {}
+  ) { }
 
-  async handle (request: UpdateOrderStatusController.Request): Promise<HttpResponse> {
+  async handle(request: UpdateOrderStatusController.Request): Promise<HttpResponse> {
     try {
       const error = this._validation.validate(request)
       if (error) {
@@ -33,9 +33,9 @@ export class UpdateOrderStatusController implements Controller {
     }
   }
 
-  async addOrUpdateOrder (orderId: string, order: OrderModel): Promise<any> {
+  async addOrUpdateOrder(orderId: string, order: OrderModel): Promise<any> {
     const orderFound = await this._axiosClient.get({
-      url: `/${orderId}`,
+      url: `/Pagamento/status/${orderId}`,
       params: {}
     })
     let result: any = null
@@ -46,7 +46,7 @@ export class UpdateOrderStatusController implements Controller {
         status: Status.Recebido
       })
       result = addOrderResult
-    // Se o pedido existe no banco de dados e o status do pedido for true, retorna o pedido atualizado
+      // Se o pedido existe no banco de dados e o status do pedido for true, retorna o pedido atualizado
     } else if (order !== null && orderFound.status) {
       result = order
     }
