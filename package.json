@@ -13,8 +13,7 @@
     "down": "docker compose down",
     "check": "npm-check -s -u",
     "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
-    "prepare": "husky install",
-    "swagger": "tsoa spec"
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -57,9 +56,9 @@
     "module-alias": "^2.2.3",
     "mongodb": "^6.5.0",
     "reflect-metadata": "^0.2.2",
+    "sqs-consumer": "^10.3.0",
     "swagger-autogen": "^2.23.7",
-    "swagger-ui-express": "^5.0.0",
-    "tsoa": "^6.2.1",
+    "swagger-ui-express": "^5.0.1",
     "tsyringe": "^4.8.0",
     "validator": "^13.11.0"
   }

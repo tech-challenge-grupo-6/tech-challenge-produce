@@ -22,7 +22,8 @@ export class AuthMiddleware implements Middleware {
 
   async handle (request: AuthMiddleware.Request): Promise<HttpResponse> {
     try {
-      const { authorization } = request
+      const authorization = this.extractToken(request)
+      console.log(authorization)
       if (authorization) {
         const rawUser = await this.identityServiceProvider.getUser({ AccessToken: authorization }).promise()
 
@@ -41,6 +42,13 @@ export class AuthMiddleware implements Middleware {
       }
       return serverError(error)
     }
+  }
+
+  extractToken (req: AuthMiddleware.Request): string | null {
+    if (req.authorization && req.authorization.split(' ')[0] === 'Bearer') {
+      return req.authorization.split(' ')[1]
+    }
+    return null
   }
 }
 
