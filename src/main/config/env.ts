@@ -13,5 +13,6 @@ export default {
   awsAccessKey: process.env.AWS_ACCESS_KEY_ID,
   awsSecretKey: process.env.AWS_SECRET_ACCESS_KEY,
   awsQueueUrl: process.env.AWS_QUEUE_URL,
-  awsMessageGroup: process.env.AWS_MESSAGE_GROUP
+  awsMessageGroup: process.env.AWS_MESSAGE_GROUP,
+  awsQueueListeningUrl: process.env.AWS_QUEUE_LISTENING_URL
 }
