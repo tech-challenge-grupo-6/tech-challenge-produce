@@ -37,10 +37,6 @@ const messageHandler = async (message: any): Promise<any> => {
 export const startConsume = async (): Promise<void> => {
   try {
     const pilotQueue = SQSConsumerClient.create(
-      {
-        queueUrl: env.awsQueueListeningUrl,
-        region: env.awsRegion
-      },
       messageHandler
     )
 

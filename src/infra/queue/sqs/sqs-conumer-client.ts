@@ -1,6 +1,9 @@
 import { Consumer, type ConsumerOptions } from 'sqs-consumer'
+import { SQSClient } from '@aws-sdk/client-sqs'
+import env from '../../../main/config/env'
 
 export type SQSErrorHandler = (err: any) => any
+
 export class SQSConsumerClient {
   private readonly _queueConsumer: Consumer
   private readonly _config: ConsumerOptions
@@ -16,14 +19,25 @@ export class SQSConsumerClient {
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   static create (
-    config: Partial<ConsumerOptions>,
     messageHandler: (message: unknown) => Promise<void>
   ) {
-    const sqsConfig: ConsumerOptions = {
+    /* const sqsConfig: ConsumerOptions = {
       ...config,
       handleMessage: messageHandler,
       queueUrl: config.queueUrl ?? '',
       region: config.region ?? 'us-east-1'
+    } */
+
+    const sqsConfig: ConsumerOptions = {
+      queueUrl: env.awsQueueListeningUrl ?? '',
+      handleMessage: messageHandler,
+      sqs: new SQSClient({
+        region: env.awsRegion ?? 'use-east-1',
+        credentials: {
+          accessKeyId: env.awsAnotherAccessKey ?? '',
+          secretAccessKey: env.awsAnotherSecretKey ?? ''
+        }
+      })
     }
 
     return new SQSConsumerClient(sqsConfig)

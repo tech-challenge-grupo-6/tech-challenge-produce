@@ -12,6 +12,8 @@ export default {
   awsRegion: process.env.AWS_REGION ?? 'us-east-1',
   awsAccessKey: process.env.AWS_ACCESS_KEY_ID,
   awsSecretKey: process.env.AWS_SECRET_ACCESS_KEY,
+  awsAnotherAccessKey: process.env.AWS_ANOTHER_ACCESS_KEY_ID,
+  awsAnotherSecretKey: process.env.AWS_ANOTHER_SECRET_ACCESS_KEY,
   awsQueueUrl: process.env.AWS_QUEUE_URL,
   awsMessageGroup: process.env.AWS_MESSAGE_GROUP,
   awsQueueListeningUrl: process.env.AWS_QUEUE_LISTENING_URL
