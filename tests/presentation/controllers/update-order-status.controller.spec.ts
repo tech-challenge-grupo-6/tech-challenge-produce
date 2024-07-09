@@ -15,6 +15,10 @@ jest.mock('../../../src/infra/http-client/axios', () => ({
   AxiosHttpClient: jest.fn()
 }))
 
+jest.mock('../../../src/infra/queue/sqs', () => ({
+  SQSClient: jest.fn()
+}))
+
 describe('UpdateOrderStatusController', () => {
   it('should call UpdateOrderStatus with correct values', async () => {
     const updateOrderStatusStub = {
@@ -29,7 +33,10 @@ describe('UpdateOrderStatusController', () => {
     const axiosClientStub = {
       get: jest.fn()
     }
-    const sut = new UpdateOrderStatusController(addOrderStub, updateOrderStatusStub, validationStub, axiosClientStub)
+    const sqsClientStub = {
+      sendMessage: jest.fn()
+    }
+    const sut = new UpdateOrderStatusController(addOrderStub, updateOrderStatusStub, validationStub, axiosClientStub, sqsClientStub as any)
     const params = {
       order_id: 'any_id',
       status: 'Criado'

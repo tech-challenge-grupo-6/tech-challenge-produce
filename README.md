@@ -35,3 +35,7 @@ npm test
 npm run up
 npm run down
 ```
+
+## Rodar OWASP
+
+docker run --name zap --network host -v $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -t http://localhost:3333/swagger -f openapi -r report.html

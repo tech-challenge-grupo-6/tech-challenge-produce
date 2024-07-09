@@ -3,6 +3,7 @@ import { makeUpdateStatusController, makeStatusValidation } from '../../../../sr
 import { makeDbUpdateOrderStatus } from '../../../../src/main/factories/usecases/update-order-status-usecase.factory'
 import { makeDbAddOrder } from '../../../../src/main/factories/usecases/add-order-usecase.factory'
 import { makeAxiosHttpClient } from '../../../../src/main/factories/gateways/axios-client'
+import { makeSQSClient } from '../../../../src/main/factories/gateways/sqs-client'
 
 jest.mock('../../../../src/presentation/controllers/update-order-status.controller', () => ({
   UpdateOrderStatusController: jest.fn()
@@ -24,6 +25,10 @@ jest.mock('../../../../src/main/factories/gateways/axios-client', () => ({
   makeAxiosHttpClient: jest.fn()
 }))
 
+jest.mock('../../../../src/main/factories/gateways/sqs-client', () => ({
+  makeSQSClient: jest.fn()
+}))
+
 describe('makeUpdateStatusController Factory', () => {
   it('should call UpdateOrderStatusController with correct values', () => {
     makeUpdateStatusController()
@@ -31,7 +36,8 @@ describe('makeUpdateStatusController Factory', () => {
       makeDbAddOrder(),
       makeDbUpdateOrderStatus(),
       makeStatusValidation(),
-      makeAxiosHttpClient()
+      makeAxiosHttpClient(),
+      makeSQSClient()
     )
   })
 

@@ -11,7 +11,7 @@ import env from '../../../main/config/env'
 
 const COLLECTION = env.collection
 
-export class OrderMondoRepository implements UpdateOrderStatusRepository, LoadOrderByIdRepository, LoadOrdersRepository, LoadOrderByStatusRepository, AddOrderRepository {
+export class OrderMongoRepository implements UpdateOrderStatusRepository, LoadOrderByIdRepository, LoadOrdersRepository, LoadOrderByStatusRepository, AddOrderRepository {
   async add (data: AddOrderRepository.Params): Promise<AddOrderRepository.Params> {
     const surveyCollection = MongoHelper.getCollection(COLLECTION)
     await surveyCollection.insertOne(data)

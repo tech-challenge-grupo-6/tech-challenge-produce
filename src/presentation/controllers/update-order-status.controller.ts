@@ -23,15 +23,14 @@ export class UpdateOrderStatusController implements Controller {
         return badRequest(error)
       }
       request.status = getCorrectValueStatus(request.status) as Status
-      const result = await this._updateOrderStatus.update(request)
+      /* const result = await this._updateOrderStatus.update(request)
       const response = await this.addOrUpdateOrder(request.orderId, result)
       if (response === null) {
         return notFound({ message: 'Order not found' })
-      }
+      } */
 
-      // const response = await this._updateOrderStatus.update(request)
-      const test = await this._sqsClient.sendMessage(response)
-      console.log(test)
+      const response = await this._updateOrderStatus.update(request)
+      await this._sqsClient.sendMessage(response)
       return ok(response)
     } catch (error) {
       console.log(error)
