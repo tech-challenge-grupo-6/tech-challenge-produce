@@ -9,6 +9,12 @@
     "version": "1.0",
     "description": "Responsável por operacionalizar o processo de produção do pedido, acompanhando a fila de pedidos (visão da cozinha), atualização de status de cada passo do pedido."
   },
+  "servers": [
+    {
+      "url": "http://a8992da8109ce46259a3806aa213dce0-2051563004.us-east-1.elb.amazonaws.com:3333/api",
+      "description": "Development"
+    }
+  ],
   "paths": {
     "/healthcheck": {
       "get": {
