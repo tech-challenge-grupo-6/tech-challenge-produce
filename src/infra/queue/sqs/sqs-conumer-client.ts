@@ -34,8 +34,8 @@ export class SQSConsumerClient {
       sqs: new SQSClient({
         region: env.awsRegion ?? 'use-east-1',
         credentials: {
-          accessKeyId: env.awsAnotherAccessKey ?? '',
-          secretAccessKey: env.awsAnotherSecretKey ?? ''
+          accessKeyId: env.awsAccessKey ?? '',
+          secretAccessKey: env.awsSecretKey ?? ''
         }
       })
     }
