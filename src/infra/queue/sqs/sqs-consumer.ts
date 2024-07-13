@@ -27,7 +27,7 @@ const messageHandler = async (message: any): Promise<any> => {
     console.log('type listening', typeof body)
     // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
     const obj = {
-      order_id: body.order_id,
+      order_id: body.orderId,
       status: body.status ? Status.EmProgresso : Status.Criado
     }
     await orderRepo.add(obj)
