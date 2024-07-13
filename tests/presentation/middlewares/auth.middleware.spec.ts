@@ -35,7 +35,7 @@ describe('AuthMiddleware', () => {
       const authMiddleware = new AuthMiddleware()
       authMiddleware.identityServiceProvider.getUser = mockGetUser
 
-      const httpResponse = await authMiddleware.handle({ authorization: 'mockToken' })
+      const httpResponse = await authMiddleware.handle({ authorization: 'Bearer mockToken' })
 
       expect(httpResponse.statusCode).toBe(200)
       expect(httpResponse.body).toHaveProperty('user')
@@ -68,7 +68,7 @@ describe('AuthMiddleware', () => {
       const authMiddleware = new AuthMiddleware()
       authMiddleware.identityServiceProvider.getUser = mockGetUser
 
-      const httpResponse = await authMiddleware.handle({ authorization: 'validToken' })
+      const httpResponse = await authMiddleware.handle({ authorization: 'Bearer validToken' })
 
       expect(httpResponse).toEqual(serverError(new Error('Internal server error')))
     })

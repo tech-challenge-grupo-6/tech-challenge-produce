@@ -1,0 +1,174 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Desafio Tech Challenge - Produce",
+    "contact": {
+      "name": "Github",
+      "url": "https://github.com/tech-challenge-grupo-6/tech-challenge-produce"
+    },
+    "version": "1.0",
+    "description": "Responsável por operacionalizar o processo de produção do pedido, acompanhando a fila de pedidos (visão da cozinha), atualização de status de cada passo do pedido."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333/api",
+      "description": "Development"
+    }
+  ],
+  "paths": {
+    "/healthcheck": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Healthcheck",
+        "description": "verifica a saúde da aplicação.",
+        "operationId": "healthcheck",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "Listar pedidos",
+        "description": "Lista todos os pedidos no banco de dados",
+        "operationId": "list-orders",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/orders/{orderId}": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "Busca pedido por id",
+        "description": "Busca detalhadamente um pedido por ID",
+        "operationId": "get-order-by-id",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/orders/{status}/status": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "Busca pedido por status",
+        "description": "Busca detalhadamente um pedido por status",
+        "operationId": "get-order-by-stats",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/orders/{orderId}/status/{status}": {
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Atualiza o status pedido",
+        "description": "Atualiza um pedido para um novo status",
+        "operationId": "update-order-status",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Orders",
+      "description": "O módulo Orders é responsável pelo gerenciamento de pedidos dos clientes."
+    },
+
+    {
+      "name": "Health",
+      "description": "O módulo Health é responsável pela saúde da aplicação."
+    }
+  ]
+}

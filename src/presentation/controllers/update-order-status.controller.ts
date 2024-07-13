@@ -5,27 +5,32 @@ import { type AddOrder, type UpdateOrderStatus } from '../../domain/usecases'
 import { type OrderModel, Status } from '../../domain/models'
 import { getCorrectValueStatus } from '../../common/helpers'
 import { type AxiosHttpClient } from '../../infra/http-client/axios'
+import { type SQSClient } from '../../infra/queue/sqs'
 
 export class UpdateOrderStatusController implements Controller {
-  constructor(
+  constructor (
     private readonly _addOrder: AddOrder,
     private readonly _updateOrderStatus: UpdateOrderStatus,
     private readonly _validation: Validation,
-    private readonly _axiosClient: AxiosHttpClient
+    private readonly _axiosClient: AxiosHttpClient,
+    private readonly _sqsClient: SQSClient
   ) { }
 
-  async handle(request: UpdateOrderStatusController.Request): Promise<HttpResponse> {
+  async handle (request: UpdateOrderStatusController.Request): Promise<HttpResponse> {
     try {
       const error = this._validation.validate(request)
       if (error) {
         return badRequest(error)
       }
       request.status = getCorrectValueStatus(request.status) as Status
-      const result = await this._updateOrderStatus.update(request)
+      /* const result = await this._updateOrderStatus.update(request)
       const response = await this.addOrUpdateOrder(request.orderId, result)
       if (response === null) {
         return notFound({ message: 'Order not found' })
-      }
+      } */
+
+      const response = await this._updateOrderStatus.update(request)
+      await this._sqsClient.sendMessage(response)
       return ok(response)
     } catch (error) {
       console.log(error)
@@ -33,7 +38,7 @@ export class UpdateOrderStatusController implements Controller {
     }
   }
 
-  async addOrUpdateOrder(orderId: string, order: OrderModel): Promise<any> {
+  async addOrUpdateOrder (orderId: string, order: OrderModel): Promise<any> {
     const orderFound = await this._axiosClient.get({
       url: `/Pagamento/status/${orderId}`,
       params: {}

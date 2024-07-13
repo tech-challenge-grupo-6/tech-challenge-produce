@@ -16,6 +16,9 @@ module.exports = {
   coveragePathIgnorePatterns: [
     '<rootDir>/src/infra/db' // Adicionando o caminho completo da pasta que deseja ignorar
   ],
+  testPathIgnorePatterns: [
+    '<rootDir>/src/presentation/controllers/update-order-status.controller.ts'
+  ],
   coverageReporters: [
     //   'clover',
     //   'json',
