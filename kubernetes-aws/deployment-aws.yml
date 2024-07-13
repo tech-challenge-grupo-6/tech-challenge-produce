@@ -30,6 +30,8 @@ spec:
               value: order_status
             - name: PORT
               value: '3333'
+            - name: AWS_REGION
+              value: us-east-1
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
@@ -40,11 +42,6 @@ spec:
                 secretKeyRef:
                   name: aws
                   key: secret-access-key
-            - name: AWS_REGION
-              valueFrom:
-                secretKeyRef:
-                  name: aws
-                  key: aws-region
           ports:
             - containerPort: 3333
           resources:
