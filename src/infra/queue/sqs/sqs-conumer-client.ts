@@ -27,9 +27,6 @@ export class SQSConsumerClient {
       queueUrl: config.queueUrl ?? '',
       region: config.region ?? 'us-east-1'
     } */
-   console.log(env.awsQueueListeningUrl)
-   console.log(env.awsAccessKey)
-   console.log(env.awsSecretKey)
 
     const sqsConfig: ConsumerOptions = {
       queueUrl: env.awsQueueListeningUrl ?? '',
