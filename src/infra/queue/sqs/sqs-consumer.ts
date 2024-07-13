@@ -31,7 +31,10 @@ const messageHandler = async (message: any): Promise<any> => {
       status: body.status ? Status.EmProgresso : Status.Criado
     }
     await orderRepo.add(obj)
-    const send = await SQSClientInstance.sendMessage(body)
+    const send = await SQSClientInstance.sendMessage({
+      orderId: body.orderId,
+      status: body.status ? 2 : 0
+    })
     console.log('send', send)
     return body
   } catch (error) {
