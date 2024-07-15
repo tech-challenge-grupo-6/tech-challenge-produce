@@ -5,6 +5,7 @@ import { SQSConsumerClient } from './sqs-conumer-client'
 import env from '../../../main/config/env'
 import { OrderMongoRepository } from '../../../infra/db/mongodb/order-mongo-repository'
 import { SQSClient } from './sqs-client'
+import { Status } from '../../../domain/models'
 
 const orderRepo = new OrderMongoRepository()
 const SQSClientInstance = new SQSClient()
@@ -25,8 +26,15 @@ const messageHandler = async (message: any): Promise<any> => {
     console.log('listening', body)
     console.log('type listening', typeof body)
     // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-    await orderRepo.update(body)
-    const send = await SQSClientInstance.sendMessage(body)
+    const obj = {
+      order_id: body.orderId,
+      status: body.status ? Status.EmProgresso : Status.Criado
+    }
+    await orderRepo.add(obj)
+    const send = await SQSClientInstance.sendMessage({
+      orderId: body.orderId,
+      status: body.status ? 2 : 0
+    })
     console.log('send', send)
     return body
   } catch (error) {

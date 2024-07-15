@@ -20,7 +20,7 @@ export class SQSClient {
     return this.sqs.sendMessage({
       MessageBody: JSON.stringify(message),
       QueueUrl: `${env.awsQueueUrl}`,
-      MessageGroupId: `${env.awsMessageGroup}`
+      // MessageGroupId: `${env.awsMessageGroup}`
     }).promise()
   }
 

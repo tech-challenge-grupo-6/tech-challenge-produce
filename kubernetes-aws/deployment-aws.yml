@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: controladorproducao-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: controladorproducao-app
@@ -19,17 +19,29 @@ spec:
             - name: URL_MICROSERVICE_PAYMENT
               value: http://controladorpagamento:5004
             - name: MONGO_URI
-              value: mongodb+srv://admin:terraform@tc-db-produce.jbljvy1.mongodb.net/tech_challenge_db
+              value: ''
             - name: AWS_QUEUE_URL
-              value: https://sqs.us-east-1.amazonaws.com/318353297187/tc_status_queue.fifo
+              value: ''
             - name: AWS_QUEUE_LISTENING_URL
-              value: https://sqs.us-east-1.amazonaws.com/318353297187/pagamento-status
+              value: ''
             - name: DATABASE
               value: tech_challenge_db
             - name: COLLECTION
               value: order_status
             - name: PORT
               value: '3333'
+            - name: AWS_REGION
+              value: us-east-1
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws
+                  key: access-key-id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws
+                  key: secret-access-key
           ports:
             - containerPort: 3333
           resources:
