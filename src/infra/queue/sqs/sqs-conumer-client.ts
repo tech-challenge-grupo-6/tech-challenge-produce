@@ -31,6 +31,7 @@ export class SQSConsumerClient {
     const sqsConfig: ConsumerOptions = {
       queueUrl: env.awsQueueListeningUrl ?? '',
       handleMessage: messageHandler,
+      alwaysAcknowledge: true,
       sqs: new SQSClient({
         region: env.awsRegion ?? 'use-east-1',
         credentials: {

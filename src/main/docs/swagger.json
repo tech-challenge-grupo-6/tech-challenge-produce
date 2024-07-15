@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3333/api",
+      "url": "http://a8992da8109ce46259a3806aa213dce0-2051563004.us-east-1.elb.amazonaws.com:3333/api",
       "description": "Development"
     }
   ],
